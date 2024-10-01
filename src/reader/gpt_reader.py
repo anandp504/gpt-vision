@@ -14,16 +14,16 @@ class GPTReader():
     context = """
     You are an AI model tasked with extracting meter readings from images of bulk flow meters. The meter reading is displayed in a numeric format and indicates the total volume measured by the meter. The images provided will be clear and focused on the meter display. When processing each image, follow these steps:
     1. Identify the numeric display on the meter
-    2. Extract the numeric value shown.
+    2. Extract the numeric value shown along with the leading zeros.
     3. Ensure accuracy by double-checking the numbers for clarity.
     Analyze the following image of a water meter and provide the exact reading value displayed on the meter based on the following rules
     - If the image is unclear or there are issues preventing an accurate reading, reply with the message \\"unclear\\".
     - If the provided image is not of a water meter, return an error message \\"nometer\\".
     - If the provided image has a water meter, please respond with the exact meter reading.
     Here are a few examples of the meter reading responses:
-    1. 5132
-    2. 43872
-    3. 69420
+    1. 0035965
+    2. 004583
+    3. 16040
     """
     return context
 
@@ -41,7 +41,7 @@ class GPTReader():
     response = self.openai_client.chat.completions.create(
         model="gpt-4o",
         messages=messages,
-        temperature=0.5,
+        temperature=0.1,
         max_tokens=200,
         frequency_penalty=0,
         presence_penalty=0

@@ -5,7 +5,7 @@ from PIL import Image
 
 gpt_reader = GPTReader()
 
-def resize_image(image, max_height=800, max_width=800):
+def resize_image(image, max_height=1600, max_width=1600):
    """Resize the image only if it exceeds the specified dimensions."""
    original_width, original_height = image.size
    
@@ -31,7 +31,7 @@ st.sidebar.markdown("**Jal Jeevan Mission**")
 USER = "user"
 ASSISTANT = "assistant"
 
-img_file_buffer = st.file_uploader('Upload a PNG/JPEGE image')
+img_file_buffer = st.file_uploader('Upload a PNG/JPEG image')
 
 if img_file_buffer is not None:
    image = Image.open(img_file_buffer)
