@@ -1,11 +1,13 @@
 import streamlit as st
 from reader.gpt_reader import GPTReader
+from reader.paligemma_reader import PaliGemmaReader
 from pathlib import Path
 from PIL import Image
 
-gpt_reader = GPTReader()
+# gpt_reader = GPTReader()
+pali_reader = PaliGemmaReader()
 
-def resize_image(image, max_height=1600, max_width=1600):
+def resize_image(image, max_height=1200, max_width=1200):
    """Resize the image only if it exceeds the specified dimensions."""
    original_width, original_height = image.size
    
@@ -37,7 +39,8 @@ if img_file_buffer is not None:
    image = Image.open(img_file_buffer)
    display_image = resize_image(image)
    st.image(display_image)
-   results = gpt_reader.reader(display_image)
+   # results = gpt_reader.reader(display_image)
+   results = pali_reader.reader(display_image)
    with st.chat_message(ASSISTANT):
       st.write(results)
          
