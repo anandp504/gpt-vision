@@ -7,13 +7,18 @@ import os
 class QwenOCRReader():
   def __init__(self) -> None:
     model_name = "Qwen/Qwen2-VL-2B-Instruct"
+    self.gpu_type = "mps"
+    if self.gpu_type == "cuda":
+      device_map = "auto"
+    else:
+      device_map = {"": "mps"}
+
     self.model = Qwen2VLForConditionalGeneration.from_pretrained(
-      model_name, torch_dtype=torch.bfloat16, device_map={"": "mps"}, offload_buffers=True
-      # model_name, torch_dtype=torch.bfloat16, torch_dtype="auto", device_map="auto", offload_buffers=True
+      model_name, torch_dtype=torch.bfloat16, device_map=device_map, offload_buffers=True
     )
     # self.model = self.model.to("mps")
     # self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-    self.processor = AutoProcessor.from_pretrained(model_name, trust_remote_code=True, device_map={"": "mps"})
+    self.processor = AutoProcessor.from_pretrained(model_name, trust_remote_code=True, device_map=device_map)
     # self.processor = AutoProcessor.from_pretrained(model_name, trust_remote_code=True)
 
   def system_context(self):
@@ -64,7 +69,7 @@ class QwenOCRReader():
         return_tensors="pt",
     )
     # inputs = inputs.to("cuda")
-    inputs = inputs.to("mps")
+    inputs = inputs.to(self.gpu_type)
 
     # Inference: Generation of the output
     generated_ids = self.model.generate(**inputs, max_new_tokens=500)

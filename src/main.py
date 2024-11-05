@@ -7,10 +7,11 @@ from PIL import Image, ImageOps
 @st.cache_resource
 def load_model():
    return QwenOCRReader()
+   # return GPTReader()
 
 reader = load_model()
 
-def resize_image(image, max_height=600, max_width=800):
+def resize_image(image, max_height=800, max_width=1000):
    """Resize the image only if it exceeds the specified dimensions."""
    original_width, original_height = image.size
    
