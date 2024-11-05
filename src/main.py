@@ -10,7 +10,7 @@ def load_model():
 
 reader = load_model()
 
-def resize_image(image, max_height=1000, max_width=1000):
+def resize_image(image, max_height=600, max_width=800):
    """Resize the image only if it exceeds the specified dimensions."""
    original_width, original_height = image.size
    
@@ -29,6 +29,15 @@ def resize_image(image, max_height=1000, max_width=1000):
       return image.resize((new_width, new_height), Image.LANCZOS)
    else:
       return image
+   
+def crop_image(image):
+   width, height = image.size   # Get dimensions
+   left = 0.1 * width
+   top = 0.2 * height
+   right = 0.9 * width
+   bottom = 0.7 * height
+   cropped_image = image.crop((left, top, right, bottom))
+   return cropped_image
 
 
 st.sidebar.markdown("**Jal Jeevan Mission**")
@@ -41,7 +50,9 @@ if img_file_buffer is not None:
    image = Image.open(img_file_buffer)
    # image = Image.open(img_file_buffer).convert("L")
    # image = ImageOps.colorize(image, black="black", white="white")
-   display_image = resize_image(image)
+   # display_image = resize_image(image)
+   cropped_image = crop_image(image)
+   display_image = resize_image(cropped_image)
    st.image(display_image)
    results = reader.reader(display_image)
    with st.chat_message(ASSISTANT):
