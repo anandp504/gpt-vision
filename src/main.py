@@ -1,7 +1,6 @@
 import streamlit as st
 from reader.gpt_reader import GPTReader
 from reader.qwen_reader import QwenOCRReader
-from reader.llama_reader import LlamaReader
 from pathlib import Path
 from PIL import Image, ImageOps
 
